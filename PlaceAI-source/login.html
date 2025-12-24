@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Login - PlaceAI</title>
+    <link rel="icon" href="images/icon.webp" type="image/gif" sizes="16x16" />
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="Login to PlaceAI" name="description" />
+    <!-- CSS Files -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap" />
+    <link href="css/vendors.css" rel="stylesheet" type="text/css" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css" />
+    <style>
+      .login-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .login-container::before {
+        content: '';
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(138, 43, 226, 0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        top: -150px;
+        right: -150px;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .login-container::after {
+        content: '';
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(138, 43, 226, 0.08) 0%, transparent 70%);
+        border-radius: 50%;
+        bottom: -150px;
+        left: -150px;
+        animation: float 8s ease-in-out infinite reverse;
+      }
+
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(30px);
+        }
+      }
+
+      .login-box {
+        background: rgba(30, 30, 50, 0.9);
+        border: 1px solid rgba(138, 43, 226, 0.3);
+        border-radius: 15px;
+        padding: 50px;
+        max-width: 450px;
+        width: 100%;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(138, 43, 226, 0.1);
+        position: relative;
+        z-index: 1;
+        animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      @keyframes scaleIn {
+        from {
+          opacity: 0;
+          transform: scale(0.95) translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+
+      .login-header {
+        text-align: center;
+        margin-bottom: 40px;
+        animation: fadeInDown 0.6s ease-out 0.2s both;
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .login-header h1 {
+        font-size: 32px;
+        color: #fff;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        background: linear-gradient(135deg, #a855f7 0%, #8a2be2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .login-header p {
+        color: #aaa;
+        font-size: 14px;
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+        animation: fadeInUp 0.6s ease-out both;
+      }
+
+      .form-group:nth-child(1) { animation-delay: 0.3s; }
+      .form-group:nth-child(2) { animation-delay: 0.4s; }
+      .form-group:nth-child(3) { animation-delay: 0.5s; }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #fff;
+        font-weight: 500;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 14px 16px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(138, 43, 226, 0.2);
+        border-radius: 8px;
+        color: #fff;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(138, 43, 226, 0.6);
+        box-shadow: 0 0 10px rgba(138, 43, 226, 0.2);
+        transform: translateY(-2px);
+      }
+
+      .form-group input::placeholder {
+        color: #999;
+      }
+
+      .remember-forgot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        font-size: 14px;
+        animation: fadeInUp 0.6s ease-out 0.6s both;
+      }
+
+      .remember-forgot label {
+        margin-bottom: 0;
+        display: flex;
+        align-items: center;
+        color: #aaa;
+        text-transform: none;
+        letter-spacing: normal;
+        font-weight: normal;
+      }
+
+      .remember-forgot input[type="checkbox"] {
+        width: auto;
+        margin-right: 8px;
+        cursor: pointer;
+        accent-color: #8a2be2;
+      }
+
+      .remember-forgot a {
+        color: #8a2be2;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .remember-forgot a:hover {
+        color: #a855f7;
+        text-decoration: underline;
+      }
+
+      .login-btn {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, #8a2be2 0%, #a855f7 100%);
+        border: none;
+        border-radius: 8px;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 20px;
+        animation: fadeInUp 0.6s ease-out 0.7s both;
+      }
+
+      .login-btn:hover {
+        box-shadow: 0 10px 30px rgba(138, 43, 226, 0.4);
+        transform: translateY(-3px);
+      }
+
+      .login-btn:active {
+        transform: translateY(-1px);
+      }
+
+      .divider {
+        text-align: center;
+        margin: 30px 0;
+        position: relative;
+        animation: fadeInUp 0.6s ease-out 0.8s both;
+      }
+
+      .divider::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(138, 43, 226, 0.3), transparent);
+      }
+
+      .divider span {
+        background: rgba(30, 30, 50, 0.9);
+        padding: 0 15px;
+        color: #aaa;
+        font-size: 12px;
+        position: relative;
+        z-index: 1;
+        text-transform: uppercase;
+      }
+
+      .signup-section {
+        background: rgba(138, 43, 226, 0.08);
+        border: 1px solid rgba(138, 43, 226, 0.2);
+        border-radius: 12px;
+        padding: 30px;
+        text-align: center;
+        animation: fadeInUp 0.6s ease-out 0.9s both;
+        transition: all 0.3s ease;
+      }
+
+      .signup-section:hover {
+        background: rgba(138, 43, 226, 0.12);
+        border-color: rgba(138, 43, 226, 0.4);
+        box-shadow: 0 10px 30px rgba(138, 43, 226, 0.1);
+      }
+
+      .signup-section h3 {
+        color: #fff;
+        margin-bottom: 12px;
+        font-size: 16px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .signup-section p {
+        color: #aaa;
+        margin-bottom: 20px;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .signup-btn {
+        width: 100%;
+        padding: 12px;
+        background: transparent;
+        border: 2px solid #8a2be2;
+        border-radius: 8px;
+        color: #8a2be2;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .signup-btn:hover {
+        background: #8a2be2;
+        color: #fff;
+        box-shadow: 0 10px 30px rgba(138, 43, 226, 0.3);
+        transform: translateY(-2px);
+      }
+
+      .back-link {
+        text-align: center;
+        margin-top: 30px;
+        animation: fadeInUp 0.6s ease-out 1s both;
+      }
+
+      .back-link a {
+        color: #8a2be2;
+        text-decoration: none;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .back-link a:hover {
+        color: #a855f7;
+        transform: translateX(-5px);
+      }
+
+      .back-link i {
+        margin-right: 8px;
+      }
+
+      /* Loading Animation */
+      .loading-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(26, 26, 46, 0.95);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        backdrop-filter: blur(4px);
+      }
+
+      .loading-overlay.active {
+        display: flex;
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid rgba(138, 43, 226, 0.2);
+        border-top: 4px solid #a855f7;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 20px;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loading-text {
+        color: #fff;
+        font-size: 16px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      /* Global Page Transition Loading */
+      .page-transition-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        z-index: 99999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+
+      .page-transition-loader.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .transition-spinner {
+        width: 80px;
+        height: 80px;
+        border: 6px solid rgba(138, 43, 226, 0.2);
+        border-top: 6px solid #a855f7;
+        border-radius: 50%;
+        animation: transitionSpin 1s linear infinite;
+        margin-bottom: 30px;
+      }
+
+      @keyframes transitionSpin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .transition-text {
+        color: #a855f7;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        animation: transitionPulse 1.5s ease-in-out infinite;
+      }
+
+      @keyframes transitionPulse {
+        0%, 100% {
+          opacity: 0.5;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .progress-bar {
+        width: 200px;
+        height: 4px;
+        background: rgba(138, 43, 226, 0.2);
+        border-radius: 2px;
+        margin-top: 20px;
+        overflow: hidden;
+      }
+
+      .progress-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #8a2be2, #a855f7);
+        width: 0%;
+        animation: progressAnimation 2s ease-out forwards;
+      }
+
+      @keyframes progressAnimation {
+        0% {
+          width: 0%;
+        }
+        50% {
+          width: 70%;
+        }
+        100% {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .login-box {
+          padding: 30px 20px;
+        }
+
+        .login-header h1 {
+          font-size: 24px;
+        }
+
+        .signup-section {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="dark-scheme">
+    <div id="wrapper">
+      <!-- Header -->
+      <header class="transparent">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="de-flex">
+                <div class="de-flex-col">
+                  <div id="logo">
+                    <a href="index.html">
+                      <img class="logo-main" src="images/logo.webp" alt="" />
+                      <img class="logo-scroll" src="images/logo.webp" alt="" />
+                      <img class="logo-mobile" src="images/logo.webp" alt="" />
+                    </a>
+                  </div>
+                  <div class="de-flex-col">
+                  <div class="de-flex-col header-col-mid">
+                    <ul id="mainmenu">
+                      <li>
+                        <a class="menu-item" href="index.html">About</a>
+                      </li>
+                      <li>
+                        <a class="menu-item" href="index.html"
+                          >Features</a
+                        >
+                      </li>
+                      <li>
+                        <a class="menu-item" href="index.html"
+                          >Key Modules</a
+                        >
+                      </li>
+                      <li>
+                        <a class="menu-item" href="index.html"
+                          >Benefits</a
+                        >
+                      </li>
+                      <li>
+                        <a class="menu-item" href="index.html"
+                          >Workflow</a
+                        >
+                      </li>
+                      <li>
+                        <a class="menu-item" href="index.html">FAQ</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                </div>
+
+                <div class="de-flex-col">
+                  <a class="btn-main fx-slide" href="index.html">
+                    <span>Back to Home</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Login Container -->
+      <div class="login-container">
+        <div class="login-box">
+          <!-- Login Form -->
+          <div class="login-header">
+            <h1>Welcome</h1>
+            <p>Sign in to your PlaceAI account</p>
+          </div>
+
+          <form id="loginForm" method="POST">
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="you@example.com"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+
+            <div class="remember-forgot">
+              <label>
+                <input type="checkbox" name="remember" />
+                Remember me
+              </label>
+              <a href="#">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="login-btn">Sign In</button>
+          </form>
+
+          <!-- Create Account Section -->
+          <div class="divider">
+            <span>Don't have an account?</span>
+          </div>
+
+          <div class="signup-section">
+            <h3>New User?</h3>
+            <p>
+              Create an account to get started with personalized career development and placement support.
+            </p>
+            <button type="button" class="signup-btn" onclick="window.location.href='register.html'">
+              Create Account
+            </button>
+          </div>
+
+          <div class="back-link">
+            <a href="index.html">
+              <i class="fa fa-arrow-left"></i>
+              Back to Home
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="bg-dark pt-40 pb-40 text-center">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <h6>
+                &copy; 2025 PlaceAI. All rights reserved. | AI-Driven Training and Placement Support System
+              </h6>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="spinner"></div>
+      <div class="loading-text">Signing in...</div>
+    </div>
+
+    <!-- Page Transition Loader -->
+    <div class="page-transition-loader" id="pageTransitionLoader">
+      <div class="transition-spinner"></div>
+      <div class="transition-text">Loading...</div>
+      <div class="progress-bar">
+        <div class="progress-bar-fill"></div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/vendors.js"></script>
+    <script src="js/designesia.js"></script>
+    <script>
+      // Handle login form submission
+      document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        // Show loading overlay
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        loadingOverlay.classList.add('active');
+        
+        // Simulate API call (remove this when connecting to backend)
+        setTimeout(() => {
+          console.log('Login attempt:', { email, password });
+          loadingOverlay.classList.remove('active');
+          alert('Login functionality to be integrated with backend');
+        }, 2000);
+      });
+
+      // Global Page Transition Loading
+      const transitionLoader = document.getElementById('pageTransitionLoader');
+      
+      // Show loader on link click
+      document.addEventListener('click', function(e) {
+        const link = e.target.closest('a');
+        if (link && link.href && !link.target && link.hostname === window.location.hostname) {
+          // External or same-domain links only
+          if (!link.href.includes('#')) {
+            transitionLoader.classList.add('active');
+          }
+        }
+      });
+
+      // Show loader on page unload
+      window.addEventListener('beforeunload', function() {
+        transitionLoader.classList.add('active');
+      });
+
+      // Show loader on back/forward navigation
+      window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+          transitionLoader.classList.add('active');
+          setTimeout(() => {
+            transitionLoader.classList.remove('active');
+          }, 500);
+        }
+      });
+
+      window.addEventListener('pagehide', function(event) {
+        if (event.persisted) {
+          transitionLoader.classList.add('active');
+        }
+      });
+
+      // Remove loader when page fully loads
+      window.addEventListener('load', function() {
+        setTimeout(() => {
+          transitionLoader.classList.remove('active');
+        }, 300);
+      });
+
+      // Add smooth page transitions
+      document.addEventListener('DOMContentLoaded', function() {
+        // Trigger animations on page load
+        const elements = document.querySelectorAll('[animation-trigger]');
+        elements.forEach(el => {
+          el.style.animation = 'fadeInUp 0.6s ease-out forwards';
+        });
+      });
+    </script>
+  </body>
+</html>
